@@ -64,6 +64,13 @@ export class News extends Component {
       loading: false
     }
   }
+
+  async componentDidMount() {
+    let url = "https://newsapi.org/v2/everything?q=tesla&from=2022-04-30&sortBy=publishedAt&apiKey=b0f413a375e945af89a584c42b7a78ae";
+    let data = await fetch(url);
+    let parsedData = await data.json();
+    this.setState({ articles: parsedData.articles })
+  }
   render() {
     return (
       <>
@@ -73,7 +80,7 @@ export class News extends Component {
           <div className="row">
             {this.state.articles.map((element) => {
               return <div className="col-lg-4" key={element.url}>
-                <NewsItem title={element.title.slice(0, 45)} description={element.description.slice(0, 95)} imageUrl={element.urlToImage} newsUrl={element.url} />
+                <NewsItem title={element.title ? element.title.slice(0, 40) : ""} description={element.description ? element.description.slice(0, 95) : ""} imageUrl={element.urlToImage} newsUrl={element.url} />
               </div>
             })}
 
